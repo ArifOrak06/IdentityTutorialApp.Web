@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Giris Yap";
+}
+@model SignInViewModel
+
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+
+        <h3>Giris Yap</h3>
+        <hr />
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+        <form asp-controller="Home" asp-action="SignIn" asp-route-returnUrl="@Context.Request.Query["returnUrl"]" method="post">
+            <div class="mb-3">
+                <label asp-for="Email" for="exampleInputEmail1" class="form-label"></label>
+                <input asp-for="Email" type="email" class="form-control">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label  asp-for="Password" for="exampleInputPassword1" class="form-label"></label>
+                <input asp-for="Password"  type="password" class="form-control">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3 form-check">
+                <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1">Beni hatırla</label>
+                <span asp-validation-for="RememberMe"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Giriş Yap</button>
+        </form>
+
+    </div>
+</div>
+

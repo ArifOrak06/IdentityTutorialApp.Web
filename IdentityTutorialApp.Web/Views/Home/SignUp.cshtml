@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+@model SignUpViewModel
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<div class="row">
+
+    <div class="col-md-6 offset-md-2">
+
+        <h3>Kullanıcı Kayıt Formu</h3>
+        <hr />
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert"> @TempData["SuccessMessage"]</div>
+        }
+
+        <div class="alert alert-danger" asp-validation-summary="ModelOnly" role="alert"></div>
+        <form asp-controller="Home" asp-action="SignUp" method="post">
+
+            <div class="mb-3">
+                <label asp-for="UserName" for="exampleInputEmail1" class="form-label"> </label>
+                <input type="text" class="form-control" asp-for="UserName">
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" for="exampleInputEmail1" class="form-label">   </label>
+                <input asp-for="Email" type="text" class="form-control">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Phone" for="exampleInputEmail1" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Phone">
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" for="exampleInputPassword1" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PasswordConfirm" for="exampleInputPassword1" class="form-label"></label>
+                <input asp-for="PasswordConfirm" type="password" class="form-control">
+                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-8 offset-md-4">
+
+                    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+

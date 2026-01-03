@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="IdentityAppTutorial.Core/IdentityAppTutorial.Core.csproj" />
+  <Project Path="IdentityTutorialApp.Repository/IdentityTutorialApp.Repository.csproj" />
+  <Project Path="IdentityTutorialApp.Service/IdentityTutorialApp.Service.csproj" />
+  <Project Path="IdentityTutorialApp.Web/IdentityTutorialApp.Web.csproj" />
+</Solution>
