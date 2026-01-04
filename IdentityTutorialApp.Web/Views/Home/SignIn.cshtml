@@ -4,7 +4,7 @@
 @model SignInViewModel
 
 
-@section Scripts{
+@section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
 
@@ -23,16 +23,28 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label  asp-for="Password" for="exampleInputPassword1" class="form-label"></label>
-                <input asp-for="Password"  type="password" class="form-control">
+                <label asp-for="Password" for="exampleInputPassword1" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control">
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="mb-3 form-check">
-                <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1">Beni hatırla</label>
-                <span asp-validation-for="RememberMe"></span>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3 form-check">
+                        <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1">Beni hatırla</label>
+                    </div>
+                   
+                </div>
+                <div class="col-md-6">
+
+                    <a class="float-end" asp-controller="Home" asp-action="ForgetPassword">Şifremi Unuttum</a>
+
+                </div>
             </div>
+
             <button type="submit" class="btn btn-primary">Giriş Yap</button>
+
         </form>
 
     </div>

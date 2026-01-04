@@ -1,5 +1,6 @@
 using IdentityAppTutorial.Core.Entities;
 using IdentityAppTutorial.Core.Models.AppUserViewModels;
+using IdentityAppTutorial.Core.Services;
 using IdentityTutorialApp.Web.Extensions.Microsoft;
 using IdentityTutorialApp.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -13,11 +14,13 @@ namespace IdentityTutorialApp.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly IEmailService _emailService;
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -78,7 +81,36 @@ namespace IdentityTutorialApp.Web.Controllers
 
             ModelState.AddModelError(string.Empty, $"E-Posta veya Þifre hatalý, Baþarýsýz giriþ sayýsý : {await _userManager.GetAccessFailedCountAsync(currentUser)}");
             return View();
-          
+
+        }
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel request)
+        {
+            AppUser? hasUser = await _userManager.FindByEmailAsync(request.Email);
+            if(hasUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Bu E-Posta adresine ait bir kullanýcý bulunamadý.");
+                return View();
+            }
+
+            // Kullanýcý bulunmuþ ise link Token'ýn üretelim.
+            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
+
+            //linki üretelim.
+            var passwordResetLink = Url.Action("ResetPassword", "Home", new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme);
+
+            //Linki Email olarak gönderelim.
+
+            await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
+            TempData["SuccessMessage"] = "Þifre yenileme linki e-posta adresinize gönderilmiþtir.";
+             
+            // return view() olarak dönseydik her seferinde mail gönderecekti. Bu nedenle ayný sayfanýn HttpGet methoduna gönderdik. 
+
+            return Redirect(nameof(ForgetPassword));
         }
         public IActionResult Privacy()
         {

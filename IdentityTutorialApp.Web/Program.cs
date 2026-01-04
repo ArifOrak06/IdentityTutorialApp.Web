@@ -1,5 +1,8 @@
+using IdentityAppTutorial.Core.Models.EmailModels;
 using IdentityTutorialApp.Repository.Extensions.Microsoft;
+using IdentityTutorialApp.Service.Extensions.Microsoft;
 using IdentityTutorialApp.Web.Extensions.Microsoft;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +13,7 @@ builder.Services.AddControllersWithViews();
 // Dependencies added to IoC
 
 builder.Services.AddDependenciesForRepositoryLayer(builder.Configuration);
-//builder.Services.AddCookieConfigurationDependency();
+builder.Services.AddServiceLayerDependencies();
 
 
 // Framework, libraries
@@ -18,6 +21,18 @@ builder.Services.AddDependenciesForRepositoryLayer(builder.Configuration);
 builder.Services.AddIdentityDependency();
 
 builder.Services.AddCookieConfigurationDependency();
+
+// GENEL CONFÝGURASYONLAR 
+
+// IOption ile EmailSettings classýmýzý - appsettings.json'daki EmailSettings bölümüne baðladýk
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+
+// Þifre Sýfýrlama Link Token Ömrü
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+{
+    options.TokenLifespan = TimeSpan.FromHours(2); // Ýki dkika geçerli olacak þekilde ayarladýk
+});
 
 
 

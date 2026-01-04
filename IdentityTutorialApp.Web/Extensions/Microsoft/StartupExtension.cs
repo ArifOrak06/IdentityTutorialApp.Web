@@ -2,6 +2,7 @@
 using IdentityTutorialApp.Repository.Contexts.EfCore;
 using IdentityTutorialApp.Web.CustomValidations;
 using IdentityTutorialApp.Web.Localizations;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityTutorialApp.Web.Extensions.Microsoft
 {
@@ -25,6 +26,7 @@ namespace IdentityTutorialApp.Web.Extensions.Microsoft
 
             }).AddPasswordValidator<PasswordValidator>()
             .AddErrorDescriber<LocalizationsIdentityErrorDescriber>()
+            .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<AppDbContext>();
         }
         public static void AddCookieConfigurationDependency(this IServiceCollection services)
