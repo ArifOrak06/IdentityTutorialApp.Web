@@ -91,7 +91,7 @@ namespace IdentityTutorialApp.Web.Controllers
         public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel request)
         {
             AppUser? hasUser = await _userManager.FindByEmailAsync(request.Email);
-            if(hasUser == null)
+            if (hasUser == null)
             {
                 ModelState.AddModelError(string.Empty, "Bu E-Posta adresine ait bir kullanýcý bulunamadý.");
                 return View();
@@ -107,20 +107,53 @@ namespace IdentityTutorialApp.Web.Controllers
 
             await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
             TempData["SuccessMessage"] = "Þifre yenileme linki e-posta adresinize gönderilmiþtir.";
-             
+
             // return view() olarak dönseydik her seferinde mail gönderecekti. Bu nedenle ayný sayfanýn HttpGet methoduna gönderdik. 
 
             return Redirect(nameof(ForgetPassword));
         }
-        public IActionResult Privacy()
+
+        public IActionResult ResetPassword(string userId, string token)
         {
+            //Þifre sýfýrlama linki mail olarak gönderilen kullanýcý linke týkladýðýnda kendisine ait userIdv ve linkin tokený gelecek biz QueryString olarak gelecek olan bu datalarý almamýz gerekiyor ki ilgili kullanýcýyý bulalým ve istediði þifreyi deðiþtirelim.
+            TempData["userId"] = userId; // HttpPost action Methoduna gönderiyoruz.
+            TempData["token"] = token; // HttpPost action Methoduna gönderiyoruz.
+
+
             return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel request)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var userId = TempData["userId"];
+            var token = TempData["token"];
+
+            // Temp data ile baþka bir Action üzerinden gelen bilgiler her zaman gelmeyebilir, bu nedenle hata kontrolünü mutlaka yapalým!!!
+
+            if (userId == null || token == null)
+                throw new Exception("Bir hata meydana geldi.");
+
+
+            //önce kullanýcýyý bulalým.
+            AppUser? hasUser = await _userManager.FindByIdAsync(userId.ToString()!);
+            if (hasUser is null)
+            {
+                ModelState.AddModelError(string.Empty, "Sistemde Kayýtlý böyle bir kullanýcý bulunmamaktadýr.");
+                return View();
+            }
+            IdentityResult result = await _userManager.ResetPasswordAsync(hasUser, token.ToString()!, request.PasswordConfirm!);
+          
+            if (!result.Succeeded)
+            {
+
+                ModelState.AddModelErrorList(result.Errors.Select(x => x.Description).ToList());
+                return View();
+            }
+            TempData["SuccessMessage"] = "Þifre Baþarýlý bir þekilde deðiþtirilmiþtir.";
+            return Redirect(nameof(ResetPassword));
         }
+    
+
+      
     }
 }

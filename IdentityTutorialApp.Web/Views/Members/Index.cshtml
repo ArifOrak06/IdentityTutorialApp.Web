@@ -1,5 +1,31 @@
 ﻿@{
     ViewData["Title"] = "Hesap Bilgileri";
 }
+@model UiUserViewModel
 
-<h3>Hoşgeldin @User.Identity.Name</h3>
+
+<h3>Hoşgeldin @User.Identity!.Name</h3>
+
+
+<div class="row">
+
+
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Kullanıcı Adı</th>
+                    <th>Telefon Numarası</th>
+                    <th>Email Adresi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.UserName</td>
+                    <td>@Model.PhoneNumber</td>
+                    <td>@Model.Email</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

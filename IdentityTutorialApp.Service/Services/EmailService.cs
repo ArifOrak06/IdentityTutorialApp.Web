@@ -32,7 +32,7 @@ namespace IdentityTutorialApp.Service.Services
             // Mail Kime gidecek ? 
             mailMessage.To.Add(toEmail);
             // mail konusu veya başlığı
-            mailMessage.Subject = "Localhos | Şifre Sıfırlama Linki";
+            mailMessage.Subject = "Localhost | Şifre Sıfırlama Linki";
             // mail içeriği
             mailMessage.Body = @$"
 
