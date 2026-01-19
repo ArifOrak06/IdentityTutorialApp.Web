@@ -21,7 +21,7 @@ namespace IdentityTutorialApp.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            AppUser? user = await _userManager.FindByNameAsync(User.Identity!.Name!);
+            AppUser? user  = await _userManager.FindByNameAsync(User.Identity!.Name!);
             var userViewModel = new UiUserViewModel
             {
                 Email = user!.Email,
@@ -40,7 +40,7 @@ namespace IdentityTutorialApp.Web.Controllers
             return View();
             
         }
-        IFormFile
+  
         [HttpPost]
         public async Task<IActionResult> PasswordChange(PasswordChangeViewModel request)
         {
