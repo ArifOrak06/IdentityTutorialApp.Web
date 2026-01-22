@@ -15,7 +15,7 @@ namespace IdentityAppTutorial.Core.Models.AppUserViewModels
         [Required(ErrorMessage = "Telofon alanı zorunlu bir alandır.")]
         [Display(Name = "GSM")]
         public string Phone { get; set; } = null!;
-       
+        [DataType(DataType.Date)]
         [Display(Name = "Doğum Tarihi")]
         public DateTime? BirthDate { get; set; }
         [Display(Name ="Şehir")]
@@ -23,7 +23,8 @@ namespace IdentityAppTutorial.Core.Models.AppUserViewModels
         [Display(Name ="Fotoğraf")]
         public IFormFile? Picture { get; set; }
         [Display(Name ="Cinsiyet")]
-        public byte? Gender { get; set; }
+        public Gender? Gender { get; set; }
+        public string? PictureUrl { get; set; }
 
     }
 }

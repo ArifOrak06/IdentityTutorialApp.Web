@@ -1,8 +1,10 @@
+using IdentityAppTutorial.Core.Helpers;
 using IdentityAppTutorial.Core.Models.EmailModels;
 using IdentityTutorialApp.Repository.Extensions.Microsoft;
 using IdentityTutorialApp.Service.Extensions.Microsoft;
 using IdentityTutorialApp.Web.Extensions.Microsoft;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,8 @@ builder.Services.AddIdentityDependency();
 builder.Services.AddCookieConfigurationDependency();
 
 // GENEL CONFÝGURASYONLAR 
-
+builder.Services.AddScoped<IImgHelper, ImgHelper>();
+builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
 // IOption ile EmailSettings classýmýzý - appsettings.json'daki EmailSettings bölümüne baðladýk
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 

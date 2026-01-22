@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IdentityAppTutorial.Core.Models.AppUserViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityAppTutorial.Core.Entities
 {
@@ -7,6 +8,6 @@ namespace IdentityAppTutorial.Core.Entities
         public string? City { get; set; }
         public string? Picture { get; set; }
         public DateTime? BirtDate { get; set; }
-        public byte? Gender { get; set; }
+        public Gender? Gender { get; set; }
     }
 }
