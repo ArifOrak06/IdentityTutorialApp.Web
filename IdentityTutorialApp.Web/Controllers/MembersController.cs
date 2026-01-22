@@ -30,7 +30,8 @@ namespace IdentityTutorialApp.Web.Controllers
             {
                 Email = user!.Email,
                 PhoneNumber = user!.PhoneNumber,
-                UserName = user!.UserName
+                UserName = user!.UserName,
+                PictureUrl = user!.Picture
             };
             return View(userViewModel);
         }
@@ -123,6 +124,7 @@ namespace IdentityTutorialApp.Web.Controllers
             }
 
             var identityResult = await _userManager.UpdateAsync(currentUser);
+
             if (!identityResult.Succeeded)
             {
                 ModelState.AddModelErrorList(identityResult.Errors.Select(x => x.Description).ToList());
@@ -133,6 +135,7 @@ namespace IdentityTutorialApp.Web.Controllers
             await _signInManager.SignOutAsync();
             await _signInManager.SignInAsync(currentUser, true);
             TempData["SuccessMessage"] = "Üye Bilgileri Başarılı bir şekilde güncellenmiştir.";
+
             UserEditViewModel? userEditViewModel = new()
             {
                 BirthDate = currentUser.BirtDate,

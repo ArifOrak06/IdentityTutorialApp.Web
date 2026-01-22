@@ -14,7 +14,7 @@ namespace IdentityTutorialApp.Repository.Extensions.Microsoft
             {
                 opt.UseSqlServer(config.GetConnectionString("SqlConnection"), options =>
                 {
-                    options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
+                    options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name); 
                 });
             });
         }

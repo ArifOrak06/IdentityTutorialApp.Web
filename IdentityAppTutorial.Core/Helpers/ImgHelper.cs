@@ -17,7 +17,7 @@ namespace IdentityAppTutorial.Core.Helpers
         public async Task<PictureUploadViewModel> UploadPictureAsync(IFormFile pictureFile)
         {
             // Öncelikle parametre olarak gönderilen image dosyasının validasyon kontrolünü yapalım.
-
+            var newPictureModel = new PictureUploadViewModel();
             if (pictureFile != null && pictureFile.Length > 0)
             {
                 // base dizinini yani Uı katmanı içerisinde resimleri kaydedeceğimiz wwwroot dizinine ulaşalım.
@@ -29,15 +29,12 @@ namespace IdentityAppTutorial.Core.Helpers
                 // Artık Resim kaydetme işlemini yapalım.
                 using var stream = new FileStream(newPicturePath, FileMode.Create);
 
-
+                newPictureModel.FileName = randomFileName;
                 await pictureFile.CopyToAsync(stream);
            
                  
             }
-            return new PictureUploadViewModel()
-            {
-                FileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(pictureFile.FileName)}",
-            };
+            return newPictureModel;
 
         }
     }
