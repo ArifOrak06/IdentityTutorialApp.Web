@@ -17,6 +17,7 @@
                     <th>Id</th>
                     <th>Kullanıcı Adı</th>
                     <th>E-Posta</th>
+                    <th>Roller</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
@@ -29,7 +30,12 @@
                             <td>@item.Id</td>
                             <td>@item.UserName</td>
                             <td>@item.Email</td>
-                            <td>#</td>
+                            <td>
+                                <user-role-names user-id="@item.Id"></user-role-names>
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-success" asp-route-userId="@item.Id" asp-controller="Roles" asp-action="AssignRoleToAppUser">Role Atama</a>
+                            </td>
                         </tr>
                     }
                 }
